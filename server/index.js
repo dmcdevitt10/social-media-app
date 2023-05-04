@@ -1,28 +1,43 @@
-require('dotenv').config()
-const express = require('express')
-const cors = require('cors')
+require("dotenv").config();
+const express = require("express");
+const cors = require("cors");
 
-const {PORT} = process.env
-const app = express()
+const { PORT } = process.env;
+const app = express();
 
-app.use(express.json())
-app.use(cors())
+app.use(express.json());
+app.use(cors());
 
-const {login, register, logout} = require('./controllers/auth')
-const {getAllPosts, getCurrentUserPosts, addPost, editPost, deletePost} = require('./controllers/posts')
-const {isAuthenticated} = require('./middleware/isAuthenticated')
+const { sequelize } = require("./util/database");
+const { User } = require("./models/user");
+const { Post } = require("./models/post");
 
+const { login, register, logout } = require("./controllers/auth");
+const {
+  getAllPosts,
+  getCurrentUserPosts,
+  addPost,
+  editPost,
+  deletePost,
+} = require("./controllers/posts");
+const { isAuthenticated } = require("./middleware/isAuthenticated");
 
-app.get('/posts', getAllPosts)
-app.get('./userposts/:userId', getCurrentUserPosts)
+User.hasMany(Post);
+Post.belongsTo(User);
 
-app.post('/register', register)
-app.post('/login', login)
-app.post('/posts', isAuthenticated, addPost)
+app.get("/posts", getAllPosts);
+app.get("./userposts/:userId", getCurrentUserPosts);
 
-app.put('/posts/:id', isAuthenticated, editPost)
+app.post("/register", register);
+app.post("/login", login);
+app.post("/posts", isAuthenticated, addPost);
 
-app.delete('/posts/:id', isAuthenticated, deletePost)
+app.put("/posts/:id", isAuthenticated, editPost);
 
+app.delete("/posts/:id", isAuthenticated, deletePost);
 
-app.listen(PORT, () => console.log(`app is listening on port ${PORT}`))
+sequelize.sync({ force: true }).then(() => {
+  app.listen(PORT, () =>
+    console.log(`db sync successful and app is listening on port ${PORT}`)
+  );
+});
