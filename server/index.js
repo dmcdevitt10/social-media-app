@@ -12,7 +12,7 @@ const { sequelize } = require("./util/database");
 const { User } = require("./models/user");
 const { Post } = require("./models/post");
 
-const { login, register, logout } = require("./controllers/auth");
+const { login, register } = require("./controllers/auth");
 const {
   getAllPosts,
   getCurrentUserPosts,
