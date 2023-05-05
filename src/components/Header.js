@@ -46,7 +46,6 @@ const Header = () => {
               <button
                 className="logout-btn"
                 onClick={() => {
-                    
                   authCtx.logout();
                 }}
               >

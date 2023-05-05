@@ -1,4 +1,5 @@
 const { DataTypes } = require("sequelize");
+
 const { sequelize } = require("../util/database");
 
 module.exports = {
@@ -10,7 +11,7 @@ module.exports = {
       primaryKey: true,
     },
     title: DataTypes.STRING,
-    contect: DataTypes.TEXT,
+    content: DataTypes.TEXT,
     privateStatus: DataTypes.BOOLEAN,
   }),
 };
