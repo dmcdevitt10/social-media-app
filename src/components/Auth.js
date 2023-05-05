@@ -20,7 +20,7 @@ const Auth = () => {
 
     if (register) {
       axios
-        .post(`https://socialmtn.devmountain.com/register`, userBody)
+        .post(`http://localhost:3030/register`, userBody)
         .then((res) => {
           console.log(res.data);
           authCtx.login(res.data.token, res.data.exp, res.data.userId)
@@ -28,7 +28,7 @@ const Auth = () => {
         .catch((err) => console.log(err));
     } else {
       axios
-        .post(`https://socialmtn.devmountain.com/login`, userBody)
+        .post(`http://localhost:3030/login`, userBody)
         .then((res) => {
           console.log(res.data);
           authCtx.login(res.data.token, res.data.exp, res.data.userId)
